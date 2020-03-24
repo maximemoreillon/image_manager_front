@@ -15,6 +15,10 @@
             <td>{{image.size/1000}} kB</td>
           </tr>
           <tr>
+            <td>Upload date</td>
+            <td>{{image.upload_date}}</td>
+          </tr>
+          <tr>
             <td>Copy URL</td>
             <td>
               <input
