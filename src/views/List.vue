@@ -1,11 +1,22 @@
 <template>
   <div class="uploads_list">
 
-    <UploadPreview
-      v-for="(image, image_index) in images"
-      v-bind:key="image._id"
-      v-bind:image="image"
-      v-on:image_deleted="remove_image(image_index)"/>
+    <div class="uploads_wrapper">
+      <UploadPreview
+        v-for="(image, image_index) in images"
+        v-bind:key="image._id"
+        v-bind:image="image"
+        v-on:image_deleted="remove_image(image_index)"/>
+    </div>
+
+
+
+    <div class="load_more_button_wrapper" v-if="!loaded_all">
+      <button
+        type="button"
+        v-on:click="get_images()"
+        >Load more</button>
+    </div>
 
 
   </div>
@@ -19,23 +30,35 @@ export default {
   name: 'List',
   data(){
     return {
-      images: []
+      images: [],
+      loaded_all: false,
+      load_count: 20,
     }
   },
   components: {
     UploadPreview,
   },
   mounted(){
+    this.delete_all_images()
     this.get_images()
   },
   methods: {
+    delete_all_images(){
+      this.images.splice(0,this.images.length)
+      this.loaded_all = false
+    },
     get_images(){
-      this.axios.get(`${process.env.VUE_APP_API_URL}/list`)
+      this.axios.post(`${process.env.VUE_APP_API_URL}/list`, {
+        start_index: this.images.length,
+        load_count: this.load_count,
+      })
       .then(response => {
-        this.images.splice(0,this.images.length)
+
         response.data.forEach((image) => {
           this.images.push(image)
         });
+
+        if(response.data.length < this.load_count) this.loaded_all = true;
       })
       .catch(error => console.log(error))
     },
@@ -58,7 +81,7 @@ export default {
 </script>
 
 <style scoped>
-.uploads_list {
+.uploads_wrapper {
 
   /* IE fallback behavior */
   display: flex;
@@ -68,5 +91,9 @@ export default {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px,1fr));
   grid-gap: 15px;
+}
+.load_more_button_wrapper{
+  margin-top: 10px;
+  text-align: center;
 }
 </style>

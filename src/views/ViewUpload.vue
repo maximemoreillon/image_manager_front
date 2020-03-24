@@ -4,7 +4,10 @@
     <template v-if="image">
 
       <div class="image_Wrapper">
-        <img v-bind:src="image_url">
+        <a v-bind:href="image_url">
+          <img v-bind:src="image_url">
+        </a>
+
       </div>
 
       <div class="table_wrapper">
