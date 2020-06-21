@@ -9,6 +9,10 @@
         v-on:image_deleted="remove_image(image_index)"/>
     </div>
 
+    <div class="" v-if="loading">
+      Loading...
+    </div>
+
 
 
     <div class="load_more_button_wrapper" v-if="!loaded_all">
@@ -31,6 +35,7 @@ export default {
   data(){
     return {
       images: [],
+      loading: false,
       loaded_all: false,
       load_count: 20,
     }
@@ -48,11 +53,17 @@ export default {
       this.loaded_all = false
     },
     get_images(){
-      this.axios.post(`${process.env.VUE_APP_API_URL}/list`, {
-        start_index: this.images.length,
-        load_count: this.load_count,
+      this.loading = true,
+      this.axios.get(`${process.env.VUE_APP_API_URL}/image_list`, {
+        params: {
+          start_index: this.images.length,
+          load_count: this.load_count,
+        }
+
       })
       .then(response => {
+
+        console.log(response.data)
 
         response.data.forEach((image) => {
           this.images.push(image)
@@ -61,6 +72,7 @@ export default {
         if(response.data.length < this.load_count) this.loaded_all = true;
       })
       .catch(error => console.log(error))
+      .finally(() => this.loading = false)
     },
     remove_image(image_index){
       this.images.splice(image_index,1)

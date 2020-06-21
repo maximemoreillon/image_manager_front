@@ -93,8 +93,8 @@ export default {
     get_upload(){
       if(this.$route.query.id){
         this.image = null;
-        this.axios.post(`${process.env.VUE_APP_API_URL}/image_details`, {
-          id: this.$route.query.id
+        this.axios.get(`${process.env.VUE_APP_API_URL}/image_details`, {
+          params: {id: this.$route.query.id}
         })
         .then(response => { this.image = response.data })
         .catch(error => console.log(error))
@@ -103,8 +103,8 @@ export default {
     },
     delete_image(){
       if(confirm('Really?')){
-        this.axios.post(`${process.env.VUE_APP_API_URL}/delete`, {
-          id: this.image._id
+        this.axios.delete(`${process.env.VUE_APP_API_URL}/image`, {
+          params: {id: this.$route.query.id}
         })
         .then( () => { this.$router.push({name: 'list'}) })
         .catch(error => console.log(error))

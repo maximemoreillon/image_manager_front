@@ -29,7 +29,7 @@ export default {
 
       let formData = new FormData();
       formData.append('image', this.$refs.image_input.files[0]);
-      this.axios.post(`${process.env.VUE_APP_API_URL}/upload`, formData, {
+      this.axios.post(`${process.env.VUE_APP_API_URL}/image`, formData, {
         headers: {'Content-Type': 'multipart/form-data' }
       })
       .then(response => {
