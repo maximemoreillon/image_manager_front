@@ -62,9 +62,6 @@ export default {
 
       })
       .then(response => {
-
-        console.log(response.data)
-
         response.data.forEach((image) => {
           this.images.push(image)
         });
