@@ -13,6 +13,11 @@ const routes = [
     component: Upload
   },
   {
+    path: '/images/:id',
+    name: 'upload_details',
+    component: ViewUpload,
+  },
+  {
     path: '/uploads',
     name: 'list',
     component: List

@@ -1,14 +1,10 @@
 <template>
-  <div
-    class="image_preview"
-    v-on:click="$router.push({name: 'view_upload', query: {id: image._id}})">
 
-    <div class="image_wrapper">
-      <!-- The image irself -->
-      <img v-bind:src="image_url">
-    </div>
+  <router-link
+    :to="{ name: 'upload_details', params: {id: image._id} }"
+    class="image_preview">
 
-
+    <img v-bind:src="image_url">
 
     <div class="metadata_wrapper">
 
@@ -21,7 +17,7 @@
 
     </div>
 
-  </div>
+  </router-link>
 </template>
 
 <script>
@@ -50,8 +46,7 @@ export default {
   },
   computed: {
     image_url(){
-      //return process.env.VUE_APP_API_URL + '/image?id=' + this.image._id;
-      return `${process.env.VUE_APP_API_URL}/${this.image.path}`;
+      return `${process.env.VUE_APP_API_URL}/images/${this.image._id}`;
     }
   }
 }
@@ -66,17 +61,16 @@ export default {
   cursor: pointer;
 
   transition: border-color 0.25s;
+  text-decoration: none;
+  color: currentcolor;
+  text-align: center;
 }
 
 .image_preview:hover {
   border-color: #c00000;
 }
 
-.image_wrapper {
-  text-align: center;
-}
-
-img{
+img {
   width: 100px;
   height: 100px;
   object-fit: contain;

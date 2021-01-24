@@ -91,24 +91,20 @@ export default {
   },
   methods: {
     get_upload(){
-      if(this.$route.query.id){
-        this.image = null;
-        this.axios.get(`${process.env.VUE_APP_API_URL}/image_details`, {
-          params: {id: this.$route.query.id}
-        })
-        .then(response => { this.image = response.data })
-        .catch(error => console.log(error))
-      }
+      if(!this.image_id) return
+      this.image = null
+      const url = `${process.env.VUE_APP_API_URL}/images/${this.image_id}/details`
+      this.axios.get(url)
+      .then(response => { this.image = response.data })
+      .catch(error => {console.log(error)})
 
     },
     delete_image(){
-      if(confirm('Really?')){
-        this.axios.delete(`${process.env.VUE_APP_API_URL}/image`, {
-          params: {id: this.$route.query.id}
-        })
-        .then( () => { this.$router.push({name: 'list'}) })
-        .catch(error => console.log(error))
-      }
+      if(!confirm('Really?')) return
+      const url = `${process.env.VUE_APP_API_URL}/images/${this.image_id}`
+      this.axios.delete(url)
+      .then( () => { this.$router.push({name: 'list'}) })
+      .catch( (error) => console.log(error))
     },
     copy_url() {
       let url_input = this.$refs.image_url
@@ -124,8 +120,13 @@ export default {
     },
   },
   computed: {
+    image_id(){
+      return this.$route.query.id
+        || this.$route.params.id
+        || this.$route.params.image_id
+    },
     image_url(){
-      return `${process.env.VUE_APP_API_URL}/image/${this.image._id}`;
+      return `${process.env.VUE_APP_API_URL}/images/${this.image._id}`;
     }
   }
 }

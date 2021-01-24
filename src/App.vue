@@ -4,11 +4,11 @@
     <AppTemplate applicationName="Image manager">
 
       <template v-slot:navigation>
-        <router-link to="/">
+        <router-link :to="{ name: 'upload'}">
           <upload-icon />
-          <span>Upload</span>
+          <span>New upload</span>
         </router-link>
-        <router-link to="/uploads">
+        <router-link :to="{ name: 'list'}">
           <format-list-bulleted-icon />
           <span>Upload list</span>
         </router-link>
