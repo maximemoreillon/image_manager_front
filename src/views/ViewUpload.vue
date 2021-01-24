@@ -125,7 +125,7 @@ export default {
   },
   computed: {
     image_url(){
-      return `${process.env.VUE_APP_API_URL}/image?id=${this.image._id}`;
+      return `${process.env.VUE_APP_API_URL}/image/${this.image._id}`;
     }
   }
 }
