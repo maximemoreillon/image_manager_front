@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Upload from '../views/Upload.vue'
 import List from '../views/List.vue'
 import ViewUpload from '../views/ViewUpload.vue'
+import About from '../views/About.vue'
 
 Vue.use(VueRouter)
 
@@ -11,6 +12,11 @@ const routes = [
     path: '/',
     name: 'upload',
     component: Upload
+  },
+  {
+    path: '/about',
+    name: 'about',
+    component: About
   },
   {
     path: '/images/:id',
@@ -26,7 +32,8 @@ const routes = [
     path: '/view_upload',
     name: 'view_upload',
     component: ViewUpload
-  }
+  },
+
 ]
 
 const router = new VueRouter({

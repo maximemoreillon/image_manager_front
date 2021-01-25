@@ -12,6 +12,10 @@
           <format-list-bulleted-icon />
           <span>Upload list</span>
         </router-link>
+        <router-link :to="{ name: 'about'}">
+          <InformationOutlineIcon />
+          <span>About</span>
+        </router-link>
       </template>
 
     </AppTemplate>
@@ -25,6 +29,7 @@ import AppTemplate from '@moreillon/vue_application_template'
 
 import UploadIcon from 'vue-material-design-icons/Upload.vue';
 import FormatListBulletedIcon from 'vue-material-design-icons/FormatListBulleted.vue';
+import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue';
 
 export default {
   name: 'app',
@@ -32,6 +37,7 @@ export default {
     AppTemplate,
     UploadIcon,
     FormatListBulletedIcon,
+    InformationOutlineIcon
   },
 
   data(){
