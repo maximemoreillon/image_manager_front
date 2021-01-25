@@ -14,12 +14,18 @@ spec:
     spec:
       containers:
       - name: ${APPLICATION_NAME}
-        image: ${CONTAINER_REGISTRY}/${APPLICATION_NAME}
+        image: ${CONTAINER_IMAGE}
         imagePullPolicy: Always
         ports:
         - containerPort: 80
-      imagePullSecrets:
-      - name: registry-credentials # Credentials to pull image from registry
+        # Get environment variables from k8s secret
+        env:
+        - name: VUE_APP_API_URL
+          value: https://img.maximemoreillon.com
+        envFrom:
+        - secretRef:
+           name: environment-variables
+
 
 ---
 apiVersion: v1
