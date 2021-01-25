@@ -33,7 +33,7 @@ export default {
         headers: {'Content-Type': 'multipart/form-data' }
       })
       .then(response => {
-        this.$router.push({name: 'view_upload', query: {id: response.data._id}})
+        this.$router.push({name: 'upload_details', params: {id: response.data._id}})
       })
       .catch(error => console.log(error));
 

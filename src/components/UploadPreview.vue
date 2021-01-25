@@ -11,9 +11,12 @@
       <div class="size_wrapper">
         Size: {{image.size/1000}}kB
       </div>
+
+      <!--
       <div class="size_wrapper">
         Referers: {{image.referers.length}}
       </div>
+      -->
 
     </div>
 

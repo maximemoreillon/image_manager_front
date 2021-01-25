@@ -22,6 +22,14 @@
             <td>{{image.upload_date}}</td>
           </tr>
           <tr>
+            <td>Views</td>
+            <td>{{image.views || 0}}</td>
+          </tr>
+          <tr>
+            <td>Uploader</td>
+            <td>{{image.uploader_id || 'N/A'}}</td>
+          </tr>
+          <tr>
             <td>Copy URL</td>
             <td>
               <input
