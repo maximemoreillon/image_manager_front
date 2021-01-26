@@ -3,6 +3,7 @@
     <h1>Image manager</h1>
     <p>Author: Maxime MOREILLON</p>
     <p>Version: {{version}}</p>
+    <p>API URL: {{api_url}}</p>
 
 
   </div>
@@ -20,6 +21,7 @@ export default {
   data(){
     return {
       version: pjson.version,
+      api_url: process.env.VUE_APP_API_URL
     }
   },
 

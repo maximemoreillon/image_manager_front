@@ -35,7 +35,13 @@ export default {
       .then(response => {
         this.$router.push({name: 'upload_details', params: {id: response.data._id}})
       })
-      .catch(error => console.log(error));
+      .catch(error => {
+
+        if(error.response) console.error(error.response.data)
+        else console.error(error)
+
+        alert(`Upload failed`)
+      })
 
     },
 
