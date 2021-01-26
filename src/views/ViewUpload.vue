@@ -43,7 +43,7 @@
                 v-on:click="copy_url()"/>
             </td>
           </tr>
-          <tr>
+          <tr v-if="user_is_uploader || user_is_admin">
             <td>Delete</td>
             <td>
               <delete-icon v-on:click="delete_image()"/>
@@ -138,6 +138,14 @@ export default {
     },
     image_url(){
       return `${process.env.VUE_APP_API_URL}/images/${this.image._id}`;
+    },
+    user_is_uploader(){
+      const user = this.$store.state.user
+      return user && user.identity.low.toString() === this.image.uploader_id
+    },
+    user_is_admin(){
+      if(!this.$store.state.user) return false
+      return this.$store.state.user.properties.isAdmin
     }
   }
 }
