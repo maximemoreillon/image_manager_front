@@ -112,7 +112,10 @@ export default {
       const url = `${process.env.VUE_APP_API_URL}/images/${this.image_id}`
       this.axios.delete(url)
       .then( () => { this.$router.push({name: 'list'}) })
-      .catch( (error) => console.log(error))
+      .catch( (error) => {
+        console.error(error)
+        alert(`Error while deleting image`)
+      })
     },
     copy_url() {
       let url_input = this.$refs.image_url
