@@ -11,19 +11,6 @@ Vue.use(VueCookies)
 Vue.use(VueAxios, axios)
 
 
-router.beforeEach((to, from, next) => {
-
-  if(Vue.$cookies.get("jwt")) {
-    axios.defaults.headers.common['Authorization'] = `Bearer ${Vue.$cookies.get('jwt')}`
-    next();
-  }
-  else {
-    delete axios.defaults.headers.common['Authorization']
-    window.location.href = process.env.VUE_APP_AUTHENTICATION_FRONT_URL;
-  }
-
-});
-
 Vue.config.productionTip = false
 
 new Vue({

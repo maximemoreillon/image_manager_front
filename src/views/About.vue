@@ -1,33 +1,95 @@
 <template>
   <div class="about">
-    <h1>Image manager</h1>
+    <h1>Image Manager</h1>
     <p>Author: Maxime MOREILLON</p>
-    <p>Version: {{version}}</p>
-    <p>API URL: {{api_url}}</p>
-
+    <h2>Services</h2>
+    <table>
+      <tr>
+        <th>Service</th>
+        <th>Version</th>
+        <th>URL</th>
+      </tr>
+      <tr
+        v-for="(service, index) in services"
+        :key="`service_${index}`">
+        <td>{{service.name}}</td>
+        <td>{{service.version}}</td>
+        <td>{{service.url || 'UNDEFINED'}}</td>
+      </tr>
+    </table>
 
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-//import HelloWorld from '@/components/HelloWorld.vue'
-
-import pjson from '../../package.json'
+import pjson from '@/../package.json'
 
 export default {
-  name: 'About',
+  name: 'Search',
+  components: {
 
+  },
   data(){
     return {
       version: pjson.version,
-      api_url: process.env.VUE_APP_API_URL
+      services: [
+        {
+          name: 'Image Manager GUI',
+          url: window.location.origin,
+          version: pjson.version
+        },
+        {
+          name: 'Image Manager API',
+          url: process.env.VUE_APP_API_URL,
+          version: null
+        },
+        {
+          name: 'Authentication API',
+          url: process.env.VUE_APP_AUTHENTICATION_API_URL,
+          version: null
+        },
+
+      ],
     }
   },
+  mounted () {
+    this.get_services_version()
+  },
+  methods: {
+
+    get_services_version () {
+      this.services.forEach((service) => {
+        if (service.version) return
+        service.version = 'Connecting...'
+        this.axios.get(service.url)
+          .then(({ data }) => { service.version = data.version })
+          .catch(() => { service.version = 'Unable to connect' })
+      })
+    }
+  }
+
 
 }
 </script>
 
-<style soped>
+<style scoped>
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+
+}
+
+tr:not(:last-child) {
+  border-bottom: 1px solid #dddddd;
+}
+
+th {
+  text-align: left;
+}
+td {
+  padding: 0.25em;
+}
 
 </style>

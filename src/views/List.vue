@@ -1,6 +1,8 @@
 <template>
   <div class="uploads_list">
 
+    <h1>Uploads</h1>
+
     <div class="uploads_wrapper">
       <UploadPreview
         v-for="(image, image_index) in images"
@@ -13,13 +15,15 @@
       Loading...
     </div>
 
-
-
     <div class="load_more_button_wrapper" v-if="!loaded_all">
       <button
         type="button"
-        v-on:click="get_images()"
-        >Load more</button>
+        v-on:click="get_images()">
+        Load more</button>
+    </div>
+
+    <div class="" v-if="loaded_all && !images.length">
+       There is not image stored at the moment.
     </div>
 
 
@@ -54,19 +58,16 @@ export default {
     },
     get_images(){
       this.loading = true,
-      this.axios.get(`${process.env.VUE_APP_API_URL}/image_list`, {
+      this.axios.get(`${process.env.VUE_APP_API_URL}/images`, {
         params: {
           start_index: this.images.length,
           load_count: this.load_count,
         }
 
       })
-      .then(response => {
-        response.data.forEach((image) => {
-          this.images.push(image)
-        });
-
-        if(response.data.length < this.load_count) this.loaded_all = true;
+      .then(({data}) => {
+        this.images = data
+        if(data.length < this.load_count) this.loaded_all = true;
       })
       .catch(error => console.log(error))
       .finally(() => this.loading = false)
@@ -75,21 +76,13 @@ export default {
       this.images.splice(image_index,1)
     },
 
-    drop(){
-      if(confirm('Really?')){
-        this.axios.post(`${process.env.VUE_APP_API_URL}/drop`)
-        .then( () => {
-          this.get_images()
-        })
-        .catch(error => console.log(error))
-      }
-
-    }
   },
 }
 </script>
 
 <style scoped>
+
+
 .uploads_wrapper {
 
   /* IE fallback behavior */

@@ -1,26 +1,27 @@
 <template>
-  <div id="app">
+  <AppTemplate
+  :options="options"
+  @user="get_user($event)">
 
-    <AppTemplate applicationName="Image manager">
+  <template v-slot:nav>
 
-      <template v-slot:navigation>
-        <router-link :to="{ name: 'upload'}">
-          <upload-icon />
-          <span>New upload</span>
-        </router-link>
-        <router-link :to="{ name: 'list'}">
-          <format-list-bulleted-icon />
-          <span>Upload list</span>
-        </router-link>
-        <router-link :to="{ name: 'about'}">
-          <InformationOutlineIcon />
-          <span>About</span>
-        </router-link>
-      </template>
+    <router-link :to="{ name: 'upload'}">
+      <upload-icon />
+      <span>New upload</span>
+    </router-link>
+    <router-link :to="{ name: 'list'}">
+      <format-list-bulleted-icon />
+      <span>Upload list</span>
+    </router-link>
+    <router-link :to="{ name: 'about'}">
+      <InformationOutlineIcon />
+      <span>About</span>
+    </router-link>
 
-    </AppTemplate>
+  </template>
 
-  </div>
+</AppTemplate>
+
 </template>
 
 <script>
@@ -42,19 +43,22 @@ export default {
 
   data(){
     return {
+      options: {
+        authenticate: true,
+        title: 'Image manager',
+        login_url: `${process.env.VUE_APP_AUTHENTICATION_API_URL}/login`,
+        identification_url: `${process.env.VUE_APP_AUTHENTICATION_API_URL}/whoami`
+      }
 
     }
   },
   mounted(){
-    this.get_current_user()
   },
   methods: {
-    get_current_user(){
-      const url = `${process.env.VUE_APP_AUTHENTICATION_API_URL}/whoami`
-      this.axios.get(url)
-      .then(response => {this.$store.commit('set_user', response.data)})
-      .catch(error => { console.error(error) })
+    get_user(user){
+      this.$store.commit('set_user', user)
     }
+
   }
 }
 </script>

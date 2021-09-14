@@ -1,9 +1,15 @@
 <template>
-  <div class="home">
+  <div class="upload">
+
+    <h1>Image upload</h1>
     <form
       class=""
       v-on:submit.prevent="submit()">
-      <input type="file" ref="image_input" name="image">
+      <input
+        type="file"
+        ref="image_input"
+        name="image"
+        accept="image/*">
       <input type="submit" name="">
     </form>
 
@@ -29,7 +35,7 @@ export default {
 
       let formData = new FormData();
       formData.append('image', this.$refs.image_input.files[0]);
-      this.axios.post(`${process.env.VUE_APP_API_URL}/image`, formData, {
+      this.axios.post(`${process.env.VUE_APP_API_URL}/images`, formData, {
         headers: {'Content-Type': 'multipart/form-data' }
       })
       .then(response => {
@@ -51,6 +57,5 @@ export default {
 
 <style soped>
 form {
-  text-align: center;
 }
 </style>
