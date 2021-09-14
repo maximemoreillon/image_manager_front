@@ -57,17 +57,17 @@ export default {
       this.loaded_all = false
     },
     get_images(){
-      this.loading = true,
-      this.axios.get(`${process.env.VUE_APP_API_URL}/images`, {
-        params: {
-          start_index: this.images.length,
-          load_count: this.load_count,
-        }
+      this.loading = true
 
-      })
+      const params = {
+        start_index: this.images.length,
+        load_count: this.load_count,
+      }
+      this.axios.get(`${process.env.VUE_APP_API_URL}/images`, { params })
       .then(({data}) => {
-        this.images = data
-        if(data.length < this.load_count) this.loaded_all = true;
+        data.forEach((image) => { this.images.push(image) })
+
+        if(data.length < this.load_count) this.loaded_all = true
       })
       .catch(error => console.log(error))
       .finally(() => this.loading = false)
