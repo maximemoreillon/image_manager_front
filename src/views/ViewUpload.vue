@@ -1,6 +1,8 @@
 <template>
   <div class="upload_details">
 
+    <h1>Upload {{image_id}}</h1>
+
     <template v-if="image">
 
       <div class="image_Wrapper">
