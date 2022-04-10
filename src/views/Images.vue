@@ -78,10 +78,12 @@ export default {
     get_images(){
       this.loading = true
       const url = `${process.env.VUE_APP_API_URL}/images`
-      const { itemsPerPage, page } = this.options
+      const { itemsPerPage, page, sortBy, sortDesc, } = this.options
       const params = {
         batch_size: itemsPerPage,
-        start_index: (page-1) * itemsPerPage
+        start_index: (page-1) * itemsPerPage,
+        sort: sortBy[0],
+        order: sortDesc[0] ? 1 : -1
       }
       this.axios.get(url, {params})
         .then( ({data}) => {
