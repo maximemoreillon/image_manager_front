@@ -30,9 +30,10 @@
         <template v-slot:item.thumbnail="{ item }">
 
           <v-img
-            width="5em"
-            height="5em"
+            class="ma-2"
             contain
+            :width="thumbnail_size"
+            :height="thumbnail_size"
             :src="get_image_thumbnail_src(item)"/>
         </template>
 
@@ -52,6 +53,7 @@ export default {
       loading: false,
       total: 0,
       options: {},
+      thumbnail_size: '10em',
       footerProps: {'items-per-page-options': [50, 100, 500, -1]},
       headers: [
         {value: 'thumbnail', text: 'Thumbnail'},
