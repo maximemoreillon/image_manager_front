@@ -1,7 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
-import Home from '../views/Home.vue'
 import Images from '../views/Images.vue'
 import Upload from '../views/Upload.vue'
 import Image from '../views/Image.vue'
@@ -10,14 +9,10 @@ Vue.use(VueRouter)
 
 const routes = [
   {
-    path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
     path: '/images',
+    alias: '/',
     name: 'Images',
-    component: Images
+    component: Images,
   },
   {
     path: '/images/new',
