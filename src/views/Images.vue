@@ -28,7 +28,6 @@
         @click:row="$router.push({name: 'Image', params: {_id: $event._id}})">
 
         <template v-slot:item.thumbnail="{ item }">
-
           <v-img
             class="ma-2"
             contain

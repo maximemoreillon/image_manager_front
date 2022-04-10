@@ -1,5 +1,5 @@
 # Image manager GUI
 
-The GUI for the image management service
+The GUI for the [image management microservice](https://github.com/maximemoreillon/image_manager)
 
-Project page: https://articles.maximemoreillon.com/articles/43
+More information on the [project page](https://articles.maximemoreillon.com/articles/43)
