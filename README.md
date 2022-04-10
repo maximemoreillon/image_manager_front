@@ -1,24 +1,5 @@
-# image_manager_front
+# Image manager GUI
 
-## Project setup
-```
-npm install
-```
+The GUI for the image management service
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+Project page: https://articles.maximemoreillon.com/articles/43

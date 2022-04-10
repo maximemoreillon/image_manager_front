@@ -1,69 +1,58 @@
 <template>
   <AppTemplate
-  :options="options"
-  @user="get_user($event)">
+    :options="options"
+    @user="get_user($event)">
 
-  <template v-slot:nav>
+    <template v-slot:nav>
+      <v-list
+        dense
+        nav >
+        <v-list-item
+          v-for="(item, index) in nav"
+          :key="`nav_item_${index}`"
+          :to="item.to"
+          exact>
+          <v-list-item-icon>
+            <v-icon>{{item.icon}}</v-icon>
+          </v-list-item-icon>
 
-    <router-link :to="{ name: 'upload'}">
-      <upload-icon />
-      <span>New upload</span>
-    </router-link>
-    <router-link :to="{ name: 'list'}">
-      <format-list-bulleted-icon />
-      <span>Upload list</span>
-    </router-link>
-    <router-link :to="{ name: 'about'}">
-      <InformationOutlineIcon />
-      <span>About</span>
-    </router-link>
+          <v-list-item-content>
+            <v-list-item-title>{{item.title}}</v-list-item-title>
+          </v-list-item-content>
+        </v-list-item>
+      </v-list>
+    </template>
 
-  </template>
-
-</AppTemplate>
-
+  </AppTemplate>
 </template>
 
 <script>
-//import AppTemplate from '@/components/vue_application_template/AppTemplate.vue'
-import AppTemplate from '@moreillon/vue_application_template'
-
-import UploadIcon from 'vue-material-design-icons/Upload.vue';
-import FormatListBulletedIcon from 'vue-material-design-icons/FormatListBulleted.vue';
-import InformationOutlineIcon from 'vue-material-design-icons/InformationOutline.vue';
-
+import AppTemplate from '@moreillon/vue_application_template_vuetify'
 export default {
-  name: 'app',
+  name: 'App',
+
   components: {
-    AppTemplate,
-    UploadIcon,
-    FormatListBulletedIcon,
-    InformationOutlineIcon
+    AppTemplate
   },
 
-  data(){
-    return {
-      options: {
-        authenticate: true,
-        title: 'Image manager',
-        login_url: `${process.env.VUE_APP_AUTHENTICATION_API_URL}/login`,
-        identification_url: `${process.env.VUE_APP_AUTHENTICATION_API_URL}/whoami`
-      }
+  data: () => ({
+    options: {
+      title: 'Images manager',
+      skip_greetings: process.env.NODE_ENV === 'development',
+      authenticate: true,
+      login_url: process.env.VUE_APP_LOGIN_URL,
+      identification_url:process.env.VUE_APP_IDENTIFICATION_URL,
+    },
+    nav: [
+      {title: 'Images', to: {name: 'Images'}, icon: 'mdi-image'},
+      {title: 'About', to: {name: 'About'}, icon: 'mdi-information-outline'},
+    ]
+  }),
 
-    }
-  },
-  mounted(){
-  },
   methods: {
     get_user(user){
-      this.$store.commit('set_user', user)
+      this.$store.commit('set_current_user', user)
     }
-
   }
-}
+};
 </script>
-
-
-<style>
-
-</style>
