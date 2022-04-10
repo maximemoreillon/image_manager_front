@@ -25,10 +25,12 @@ containerization:
   script:
     # Building the container image
     - docker build -t ${CONTAINER_IMAGE} .
-    # Pushing the image to the registry
-    - docker push ${CONTAINER_IMAGE}
-    # Cleanup
-    - docker image rm ${CONTAINER_IMAGE}
+    
+    - docker tag ${CONTAINER_IMAGE} ${CONTAINER_IMAGE_TAGGED}
+    - docker tag ${CONTAINER_IMAGE} ${CONTAINER_IMAGE_LATEST}
+    # Pushing
+    - docker push ${CONTAINER_IMAGE_TAGGED}
+    - docker push ${CONTAINER_IMAGE_LATEST}
 
 deployment:
   stage: deployment
