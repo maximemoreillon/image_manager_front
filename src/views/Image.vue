@@ -14,19 +14,14 @@
           </v-btn>
         </v-col>
         <v-col>
-          <v-toolbar-title>Image</v-toolbar-title>
+          <v-toolbar-title>Image {{current_user_id}}</v-toolbar-title>
         </v-col>
         <v-spacer />
-        <!-- <v-col cols="auto">
-          <v-btn
-            icon>
-            <v-icon>mdi-content-save</v-icon>
-          </v-btn>
-        </v-col> -->
         <v-col cols="auto">
           <v-btn
             color="#c00000"
             icon
+            :disabled="!current_user_is_admin || !current_user_is_uploader"
             @click="delete_image()">
             <v-icon>mdi-delete</v-icon>
           </v-btn>
@@ -44,41 +39,26 @@
 
       <v-card-text class="mt-5">
         <v-row align="center">
-          <v-col>
-            Size
+          <v-col cols="3">Size
           </v-col>
-          <v-col>
-            {{image.size}}
+          <v-col>{{image.size}}
           </v-col>
         </v-row>
         <v-row align="center">
-          <v-col>
-            Uploader
+          <v-col cols="3">Uploader
           </v-col>
-          <v-col>
-            {{image.uploader_id}}
-          </v-col>
+          <v-col>{{image.uploader_id}}</v-col>
         </v-row>
         <v-row align="center">
-          <v-col>
-            Upload date
-          </v-col>
-          <v-col>
-            {{image.upload_date}}
-          </v-col>
+          <v-col cols="3">Upload date</v-col>
+          <v-col>{{image.upload_date}}</v-col>
         </v-row>
         <v-row align="center">
-          <v-col>
-            Views
-          </v-col>
-          <v-col>
-            {{image.views}}
-          </v-col>
+          <v-col cols="3">Views</v-col>
+          <v-col>{{image.views}}</v-col>
         </v-row>
         <v-row align="center">
-          <v-col>
-            URL
-          </v-col>
+          <v-col cols="3">URL</v-col>
           <v-col>
             <v-text-field
               readonly
@@ -86,9 +66,7 @@
           </v-col>
         </v-row>
         <v-row align="center">
-          <v-col>
-            Thumbnail URL
-          </v-col>
+          <v-col cols="3">Thumbnail URL</v-col>
           <v-col>
             <v-text-field
               readonly
@@ -168,7 +146,22 @@ export default {
     },
     thumbnail_src(){
       return `${this.image_src}/thumbnail`
-    }
+    },
+    current_user_id(){
+      const {current_user} = this.$store.state
+      if(!current_user) return false
+      return current_user._id
+    },
+    current_user_is_admin(){
+      const {current_user} = this.$store.state
+      return current_user.isAdmin
+    },
+    current_user_is_uploader(){
+      if(!this.image) return false
+      const {uploader_id} = this.image
+      return uploader_id === this.current_user_id
+    },
+
   }
 
 }
