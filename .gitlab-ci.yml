@@ -5,15 +5,24 @@ stages:
 variables:
   APPLICATION_NAME: image-manager-front
   CONTAINER_IMAGE: ${DOCKER_HUB_USERNAME}/${APPLICATION_NAME}
-  CERTIFICATE_DOMAIN: images.maximemoreillon.com
+  CONTAINER_IMAGE_LATEST: ${CONTAINER_IMAGE}:latest
+  CONTAINER_IMAGE_TAGGED: ${CONTAINER_IMAGE}:${CI_COMMIT_SHORT_SHA}
+  K8S_INGRESS_DOMAIN: images.maximemoreillon.com
+
+image: moreillon/ci-dind
+services:
+  - name: docker:19.03.12-dind
 
 containerization:
   stage: containerization
   tags:
-  - moreillon
-  script:
-      # Docker hub login
+    - dind
+  only:
+    - master
+  before_script:
+    # Docker hub login
     - echo "${DOCKER_HUB_PASSWORD}" | docker login --username ${DOCKER_HUB_USERNAME} --password-stdin
+  script:
     # Building the container image
     - docker build -t ${CONTAINER_IMAGE} .
     # Pushing the image to the registry
@@ -23,11 +32,12 @@ containerization:
 
 deployment:
   stage: deployment
+  only:
+    - master
   tags:
-  - moreillon
+    - dind
   script:
     - envsubst < kubernetes_manifest.yml | kubectl apply -f -
-    - kubectl rollout restart deployment/${APPLICATION_NAME}
   environment:
     name: production
     kubernetes:
