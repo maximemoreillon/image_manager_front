@@ -61,6 +61,7 @@ export default {
         {value: 'uploader_id', text: 'Uploader'},
         {value: 'size', text: 'Size'},
         {value: 'views', text: 'Views'},
+        {value: 'last_viewed', text: 'Last viewed'},
       ],
     }
   },
