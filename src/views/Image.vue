@@ -21,7 +21,7 @@
           <v-btn
             color="#c00000"
             icon
-            :disabled="!current_user_is_admin || !current_user_is_uploader"
+            :disabled="!current_user_is_admin && !current_user_is_uploader"
             @click="delete_image()">
             <v-icon>mdi-delete</v-icon>
           </v-btn>
