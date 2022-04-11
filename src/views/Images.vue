@@ -24,7 +24,7 @@
         :headers="headers"
         :options.sync="options"
         :server-items-length="total"
-        :items-per-page="50"
+        :items-per-page="10"
         :footer-props="footerProps"
         @click:row="$router.push({name: 'Image', params: {_id: $event._id}})">
 
@@ -54,7 +54,7 @@ export default {
       total: 0,
       options: {},
       thumbnail_size: '10em',
-      footerProps: {'items-per-page-options': [50, 100, 500, -1]},
+      footerProps: {'items-per-page-options': [10, 50, 100, -1]},
       headers: [
         {value: 'thumbnail', text: 'Thumbnail'},
         {value: 'upload_date', text: 'Upload date'},
@@ -83,8 +83,8 @@ export default {
       const url = `${process.env.VUE_APP_API_URL}/images`
       const { itemsPerPage, page, sortBy, sortDesc, } = this.options
       const params = {
-        batch_size: itemsPerPage,
-        start_index: (page-1) * itemsPerPage,
+        limit: itemsPerPage,
+        skip: (page-1) * itemsPerPage,
         sort: sortBy[0],
         order: sortDesc[0] ? 1 : -1
       }
