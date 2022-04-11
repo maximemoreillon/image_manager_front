@@ -58,6 +58,10 @@
           <v-col>{{image.views}}</v-col>
         </v-row>
         <v-row align="center">
+          <v-col cols="3">Last viewed</v-col>
+          <v-col>{{image.last_viewed || 'Unavailable'}}</v-col>
+        </v-row>
+        <v-row align="center">
           <v-col cols="3">URL</v-col>
           <v-col>
             <v-text-field

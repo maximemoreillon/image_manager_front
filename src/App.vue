@@ -44,6 +44,7 @@ export default {
       identification_url:process.env.VUE_APP_IDENTIFICATION_URL,
     },
     nav: [
+      {title: 'Upload', to: {name: 'Upload'}, icon: 'mdi-upload'},
       {title: 'Images', to: {name: 'Images'}, icon: 'mdi-image'},
       {title: 'About', to: {name: 'About'}, icon: 'mdi-information-outline'},
     ]

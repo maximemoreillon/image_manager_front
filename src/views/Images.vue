@@ -10,6 +10,7 @@
             exact
             :to="{name: 'Upload'}">
             <v-icon>mdi-upload</v-icon>
+            <span class="ml-2">Upload new</span>
           </v-btn>
         </v-col>
       </v-row>
