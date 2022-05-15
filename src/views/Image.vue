@@ -47,7 +47,7 @@
         <v-row align="center">
           <v-col cols="3">Uploader
           </v-col>
-          <v-col>{{image.uploader_id}}</v-col>
+          <v-col>{{image.uploader_id}} <span v-if="current_user_is_uploader">(You)</span> </v-col>
         </v-row>
         <v-row align="center">
           <v-col cols="3">Upload date</v-col>
