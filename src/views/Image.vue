@@ -19,6 +19,14 @@
         <v-spacer />
         <v-col cols="auto">
           <v-btn
+            icon
+            :disabled="!current_user_is_admin && !current_user_is_uploader"
+            @click="update_image()">
+            <v-icon>mdi-content-save</v-icon>
+          </v-btn>
+        </v-col>
+        <v-col cols="auto">
+          <v-btn
             color="#c00000"
             icon
             :disabled="!current_user_is_admin && !current_user_is_uploader"
@@ -75,6 +83,13 @@
             <v-text-field
               readonly
               :value="thumbnail_src"/>
+          </v-col>
+        </v-row>
+        <v-row align="center">
+          <v-col cols="3">Restricted</v-col>
+          <v-col>
+            <v-checkbox 
+              v-model="image.restricted" />
           </v-col>
         </v-row>
       </v-card-text>
@@ -136,9 +151,24 @@ export default {
           this.$router.push({name: 'Images'})
         })
         .catch(error => {
+          alert('Deletion failed')
           console.error(error)
         })
         .finally(() => { this.deleting = false })
+    },
+    update_image(){
+      this.updating = true
+      const url = `${process.env.VUE_APP_API_URL}/images/${this.image_id}`
+      this.axios.patch(url, this.image)
+        .then(() => {
+          alert('Image updated')
+          this.get_image_details()
+        })
+        .catch(error => {
+          alert('Update failed')
+          console.error(error)
+        })
+        .finally(() => { this.updating = false })
     }
   },
   computed: {

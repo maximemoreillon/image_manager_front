@@ -1,6 +1,6 @@
 <template>
   <v-card
-    max-width="40em"
+    max-width="30em"
     class="mx-auto">
     <v-toolbar flat>
       <v-row>
@@ -28,11 +28,20 @@
               label="Image"
               v-model="image"/>
           </v-col>
+        </v-row>
+        <v-row align="center">
+          <v-col cols="auto">
+            <v-checkbox 
+              label="Private" 
+              v-model="restricted" />
+          </v-col>
+          <v-spacer />
           <v-col cols="auto">
             <v-btn
               :loading="loading"
               type="submit">
               <v-icon>mdi-upload</v-icon>
+              <span class="ml-2">Upload</span>
             </v-btn>
           </v-col>
         </v-row>
@@ -49,6 +58,7 @@ export default {
   data(){
     return {
       image: null,
+      restricted: false,
       loading: false,
     }
   },
@@ -58,6 +68,7 @@ export default {
       const url = `${process.env.VUE_APP_API_URL}/images`
       const formData = new FormData()
       formData.append('image', this.image)
+      formData.append('restricted', this.restricted)
       this.axios.post(url,formData)
       .then(({data: {_id}}) => {
         this.$router.push({name: 'Image', params: {_id}})
