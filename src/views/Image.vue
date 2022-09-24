@@ -61,6 +61,36 @@
           <v-col cols="3">Upload date</v-col>
           <v-col>{{image.upload_date}}</v-col>
         </v-row>
+
+        <v-row align="center">
+          <v-col>
+            <v-text-field
+              label="URL"
+              readonly
+              :value="image_src"/>
+          </v-col>
+        </v-row>
+        <v-row align="center">
+          <v-col>
+            <v-text-field
+              label="Thumbnail URL"
+              readonly
+              :value="thumbnail_src"/>
+          </v-col>
+        </v-row>
+        <v-row align="center">
+          <v-col>
+            <v-textarea label="Description" auto-grow rows="1" v-model="image.description" />
+          </v-col>
+        </v-row>
+        <v-row align="center">
+          <v-col>
+            <v-checkbox 
+              label="Restricted"
+              v-model="image.restricted" />
+          </v-col>
+        </v-row>
+        
         <v-row align="center">
           <v-col cols="3">Views</v-col>
           <v-col>{{image.views}}</v-col>
@@ -68,29 +98,6 @@
         <v-row align="center">
           <v-col cols="3">Last viewed</v-col>
           <v-col>{{image.last_viewed || 'Unavailable'}}</v-col>
-        </v-row>
-        <v-row align="center">
-          <v-col cols="3">URL</v-col>
-          <v-col>
-            <v-text-field
-              readonly
-              :value="image_src"/>
-          </v-col>
-        </v-row>
-        <v-row align="center">
-          <v-col cols="3">Thumbnail URL</v-col>
-          <v-col>
-            <v-text-field
-              readonly
-              :value="thumbnail_src"/>
-          </v-col>
-        </v-row>
-        <v-row align="center">
-          <v-col cols="3">Restricted</v-col>
-          <v-col>
-            <v-checkbox 
-              v-model="image.restricted" />
-          </v-col>
         </v-row>
       </v-card-text>
 

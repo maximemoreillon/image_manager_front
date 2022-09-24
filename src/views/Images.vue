@@ -18,6 +18,21 @@
     <v-divider />
 
     <v-card-text>
+      <v-form @submit.prevent="get_images()">
+        <v-row align="center">
+          <v-col>
+            <v-text-field label="Search" v-model="search" clearable/>
+          </v-col>
+          <v-col cols="auto">
+            <v-btn icon type="submit">
+              <v-icon>mdi-magnify</v-icon>
+            </v-btn>
+          </v-col>
+        </v-row>
+      </v-form>
+      
+      
+
       <v-data-table
         :loading="loading"
         :items="images"
@@ -37,6 +52,12 @@
             :src="get_image_thumbnail_src(item)"/>
         </template>
 
+        <template v-slot:item.upload_date="{ item }">
+          <span>
+            {{new Date(item.upload_date).toDateString()}}
+          </span>
+        </template>
+
 
       </v-data-table>
     </v-card-text>
@@ -50,6 +71,7 @@ export default {
   data(){
     return {
       images: [],
+      search: '',
       loading: false,
       total: 0,
       options: {},
@@ -62,6 +84,7 @@ export default {
         {value: 'size', text: 'Size'},
         {value: 'views', text: 'Views'},
         {value: 'last_viewed', text: 'Last viewed'},
+        { value: 'description', text: 'Description' },
       ],
     }
   },
@@ -82,11 +105,13 @@ export default {
       this.loading = true
       const url = `${process.env.VUE_APP_API_URL}/images`
       const { itemsPerPage, page, sortBy, sortDesc, } = this.options
+
       const params = {
         limit: itemsPerPage,
         skip: (page-1) * itemsPerPage,
         sort: sortBy[0],
-        order: sortDesc[0] ? 1 : -1
+        order: sortDesc[0] ? 1 : -1,
+        search: this.search 
       }
       this.axios.get(url, {params})
         .then( ({data}) => {

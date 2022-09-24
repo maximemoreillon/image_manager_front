@@ -29,6 +29,12 @@
               v-model="image"/>
           </v-col>
         </v-row>
+        <v-row>
+          <v-col>
+            <v-textarea 
+              label="Description" auto-grow rows="1" v-model="description"/>
+          </v-col>
+        </v-row>
         <v-row align="center">
           <v-col cols="auto">
             <v-checkbox 
@@ -58,6 +64,7 @@ export default {
   data(){
     return {
       image: null,
+      description: '',
       restricted: false,
       loading: false,
     }
@@ -65,10 +72,14 @@ export default {
   methods: {
     upload_image(){
       this.loading = true
-      const url = `${process.env.VUE_APP_API_URL}/images`
+      
       const formData = new FormData()
+
       formData.append('image', this.image)
       formData.append('restricted', this.restricted)
+      formData.append('description', this.description)
+
+      const url = `${process.env.VUE_APP_API_URL}/images`
       this.axios.post(url,formData)
       .then(({data: {_id}}) => {
         this.$router.push({name: 'Image', params: {_id}})
