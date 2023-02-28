@@ -46,9 +46,9 @@
         </v-row>
         <v-row align="center">
           <v-col cols="3">Uploader </v-col>
-          <v-col
-            >{{ image.uploader_id }}
-            <span v-if="current_user_is_uploader">(You)</span>
+          <v-col>
+            <UploaderInfo :id="image.uploader_id" />
+            <!-- <span v-if="current_user_is_uploader">(You)</span> -->
           </v-col>
         </v-row>
         <v-row align="center">
@@ -105,10 +105,13 @@
 </template>
 
 <script>
-// @ is an alias to /src
+import UploaderInfo from "../components/UploaderInfo.vue"
 
 export default {
   name: "ImageDetails",
+  components: {
+    UploaderInfo,
+  },
   data() {
     return {
       loading: false,
