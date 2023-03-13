@@ -134,7 +134,7 @@ export default {
   methods: {
     get_image_details() {
       this.loading = true
-      const url = `${process.env.VUE_APP_API_URL}/images/${this.image_id}/details`
+      const url = `/images/${this.image_id}/details`
       this.axios
         .get(url)
         .then(({ data }) => {
@@ -150,7 +150,7 @@ export default {
     delete_image() {
       if (!confirm(`Delete image?`)) return
       this.deleting = true
-      const url = `${process.env.VUE_APP_API_URL}/images/${this.image_id}`
+      const url = `/images/${this.image_id}`
       this.axios
         .delete(url)
         .then(() => {
@@ -166,7 +166,7 @@ export default {
     },
     update_image() {
       this.updating = true
-      const url = `${process.env.VUE_APP_API_URL}/images/${this.image_id}`
+      const url = `/images/${this.image_id}`
       this.axios
         .patch(url, this.image)
         .then(() => {
