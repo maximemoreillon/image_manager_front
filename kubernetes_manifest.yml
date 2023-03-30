@@ -13,23 +13,20 @@ spec:
         app: ${APPLICATION_NAME}
     spec:
       containers:
-      - name: ${APPLICATION_NAME}
-        image: ${CONTAINER_IMAGE_TAGGED}
-        ports:
-        - containerPort: 80
-        envFrom:
-        - secretRef:
-           name: environment-variables
-        env:
-        - name: VUE_APP_API_URL
-          value: https://img.maximemoreillon.com/
-        - name: VUE_APP_LOGIN_URL
-          value: https://api.users.maximemoreillon.com/v2/auth/login
-        - name: VUE_APP_IDENTIFICATION_URL
-          value: https://api.users.maximemoreillon.com/v2/users/self
-
-        
-
+        - name: ${APPLICATION_NAME}
+          image: ${CONTAINER_IMAGE_TAGGED}
+          ports:
+            - containerPort: 80
+          envFrom:
+            - secretRef:
+                name: environment-variables
+          env:
+            - name: VUE_APP_API_URL
+              value: https://img.maximemoreillon.com/
+            - name: VUE_APP_LOGIN_URL
+              value: https://api.users.maximemoreillon.com/auth/login
+            - name: VUE_APP_IDENTIFICATION_URL
+              value: https://api.users.maximemoreillon.com/users/self
 
 ---
 apiVersion: v1
@@ -38,7 +35,7 @@ metadata:
   name: ${APPLICATION_NAME}
 spec:
   ports:
-  - port: 80
+    - port: 80
   selector:
     app: ${APPLICATION_NAME}
   type: ClusterIP # Cluster IP since no need to map to an external port
@@ -52,14 +49,14 @@ metadata:
     cert-manager.io/cluster-issuer: "letsencrypt-prod" # connect to the certificate issuer
 spec:
   tls:
-  - hosts:
-    - ${K8S_INGRESS_DOMAIN}
-    secretName: ${APPLICATION_NAME} # Name of the secret, i.e. the certificates
+    - hosts:
+        - ${K8S_INGRESS_DOMAIN}
+      secretName: ${APPLICATION_NAME} # Name of the secret, i.e. the certificates
   rules:
-  - host: ${K8S_INGRESS_DOMAIN}
-    http:
-      paths:
-      - path: /
-        backend:
-          serviceName: ${APPLICATION_NAME} # Name of the service, named after the app
-          servicePort: 80
+    - host: ${K8S_INGRESS_DOMAIN}
+      http:
+        paths:
+          - path: /
+            backend:
+              serviceName: ${APPLICATION_NAME} # Name of the service, named after the app
+              servicePort: 80
