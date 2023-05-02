@@ -106,6 +106,7 @@
 
 <script>
 import UploaderInfo from "../components/UploaderInfo.vue"
+const { VUE_APP_IMAGE_MANAGER_API_URL } = process.env
 
 export default {
   name: "ImageDetails",
@@ -187,7 +188,7 @@ export default {
       return this.$route.params._id
     },
     image_src() {
-      return `${process.env.VUE_APP_API_URL}/images/${this.image_id}`
+      return `${VUE_APP_IMAGE_MANAGER_API_URL}/images/${this.image_id}`
     },
     thumbnail_src() {
       return `${this.image_src}/thumbnail`

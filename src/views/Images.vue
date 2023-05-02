@@ -6,7 +6,7 @@
           <v-toolbar-title>Images</v-toolbar-title>
         </v-col>
         <v-col cols="auto">
-          <v-btn exact :to="{ name: 'Upload' }">
+          <v-btn exact :to="{ name: 'Upload' }" color="primary">
             <v-icon>mdi-upload</v-icon>
             <span class="ml-2">Upload new</span>
           </v-btn>
@@ -62,6 +62,8 @@
 </template>
 
 <script>
+const { VUE_APP_IMAGE_MANAGER_API_URL } = process.env
+
 export default {
   name: "Home",
   data() {
@@ -122,7 +124,7 @@ export default {
         })
     },
     get_image_thumbnail_src({ _id }) {
-      return `${process.env.VUE_APP_API_URL}/images/${_id}/thumbnail`
+      return `${VUE_APP_IMAGE_MANAGER_API_URL}/images/${_id}/thumbnail`
     },
   },
 }

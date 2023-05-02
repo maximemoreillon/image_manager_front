@@ -6,9 +6,9 @@ import vuetify from "./plugins/vuetify"
 import axios from "axios"
 import VueAxios from "vue-axios"
 
-const { VUE_APP_API_URL } = process.env
+const { VUE_APP_IMAGE_MANAGER_API_URL } = process.env
 
-axios.defaults.baseURL = VUE_APP_API_URL
+axios.defaults.baseURL = VUE_APP_IMAGE_MANAGER_API_URL
 
 Vue.use(VueAxios, axios)
 
