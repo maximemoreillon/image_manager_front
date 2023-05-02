@@ -1,77 +1,54 @@
 <template>
   <v-card>
     <v-card-title>Image manager GUI</v-card-title>
+    <v-card-subtitle> v{{ version }} </v-card-subtitle>
     <v-card-text>
-      GUI for the image management microservice. Developed and maintained by <a href="https://maximemoreillon.com">Maxime Moreillon</a>
+      GUI for the image management microservice. Developed and maintained by
+      <a href="https://maximemoreillon.com">Maxime Moreillon</a>
     </v-card-text>
     <v-card-text>
       <v-data-table
         hide-default-footer
         :itemsPerPage="-1"
         :headers="headers"
-        :items="services"/>
+        :items="services"
+      />
     </v-card-text>
-
-
   </v-card>
 </template>
 
 <script>
-import pjson from '@/../package.json'
+import { version } from "@/../package.json"
 export default {
-  name: 'About',
-  data () {
+  name: "About",
+  data() {
     return {
+      version,
       headers: [
-        {text: 'Service', value: "name"},
-        {text: 'Version', value: "version"},
-        {text: 'URL', value: "url"},
-
+        { text: "Service", value: "name" },
+        { text: "URL", value: "url" },
       ],
       services: [
         {
-          name: 'Image manager GUI',
+          name: "Image manager GUI",
           url: window.location.origin,
-          version: pjson.version
         },
         {
-          name: 'Image manager back-end',
+          name: "Image manager back-end",
           url: process.env.VUE_APP_API_URL,
-          version: null
         },
         {
-          name: 'Login',
+          name: "Login",
           url: process.env.VUE_APP_LOGIN_URL,
-          version: 'N/A',
         },
         {
-          name: 'Identification',
+          name: "Identification",
           url: process.env.VUE_APP_IDENTIFICATION_URL,
-          version: 'N/A',
         },
       ],
     }
   },
-  mounted () {
-    this.get_services_version()
-  },
-  methods: {
-
-    get_services_version () {
-      this.services.forEach((service) => {
-        if (service.version) return
-        service.version = 'Connecting...'
-        this.axios.get(service.url)
-          .then(({ data }) => { service.version = data.version })
-          .catch(() => { service.version = 'Unable to connect' })
-      })
-    }
-  }
-
 }
 </script>
 
-<style scoped>
-
-
-</style>
+<style scoped></style>
