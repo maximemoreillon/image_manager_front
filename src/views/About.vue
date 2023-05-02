@@ -19,6 +19,14 @@
 
 <script>
 import { version } from "@/../package.json"
+const {
+  VUE_APP_LOGIN_URL,
+  VUE_APP_IDENTIFICATION_URL,
+  VUE_APP_USER_MANAGER_API_URL,
+  VUE_APP_USER_MANAGER_GUI_URL,
+  VUE_APP_IMAGE_MANAGER_API_URL,
+} = process.env
+
 export default {
   name: "About",
   data() {
@@ -35,15 +43,23 @@ export default {
         },
         {
           name: "Image manager back-end",
-          url: process.env.VUE_APP_API_URL,
+          url: VUE_APP_IMAGE_MANAGER_API_URL,
         },
         {
           name: "Login",
-          url: process.env.VUE_APP_LOGIN_URL,
+          url: VUE_APP_LOGIN_URL,
         },
         {
           name: "Identification",
-          url: process.env.VUE_APP_IDENTIFICATION_URL,
+          url: VUE_APP_IDENTIFICATION_URL,
+        },
+        {
+          name: "User manager API",
+          url: VUE_APP_USER_MANAGER_API_URL,
+        },
+        {
+          name: "User-manager GUI",
+          url: VUE_APP_USER_MANAGER_GUI_URL,
         },
       ],
     }
