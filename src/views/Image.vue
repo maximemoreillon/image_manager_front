@@ -121,6 +121,7 @@ export default {
       referers_headers: [
         { text: "URL", value: "url" },
         { text: "Last request", value: "last_request" },
+        { text: "Views", value: "views" },
       ],
     }
   },
