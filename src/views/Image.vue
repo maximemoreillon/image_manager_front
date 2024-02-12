@@ -35,25 +35,33 @@
     <v-divider />
 
     <template v-if="image">
-      <v-card-text>
-        <v-img :src="image_src" alt="" />
-      </v-card-text>
+      <div class="image_wrapper">
+        <img contain :src="image_src" class="image_preview" />
+      </div>
 
       <v-card-text class="mt-5">
-        <v-row align="center">
-          <v-col cols="3">Size </v-col>
+        <v-row align="center" dense>
+          <v-col cols="3">Original file size </v-col>
           <v-col>{{ image.size }} </v-col>
         </v-row>
-        <v-row align="center">
+        <v-row align="center" dense>
           <v-col cols="3">Uploader </v-col>
           <v-col>
             <UploaderInfo :id="image.uploader_id" />
             <!-- <span v-if="current_user_is_uploader">(You)</span> -->
           </v-col>
         </v-row>
-        <v-row align="center">
+        <v-row align="center" dense>
           <v-col cols="3">Upload date</v-col>
           <v-col>{{ image.upload_date }}</v-col>
+        </v-row>
+        <v-row align="center" dense>
+          <v-col cols="3">Views</v-col>
+          <v-col cols="auto">{{ image.views }}</v-col>
+          <v-col v-if="image.last_viewed"
+            >(Last viewed
+            {{ new Date(image.last_viewed).toDateString() }})</v-col
+          >
         </v-row>
 
         <v-row align="center">
@@ -61,16 +69,22 @@
             <v-text-field label="URL" readonly :value="image_src" />
           </v-col>
         </v-row>
-        <v-row align="center">
+        <v-row align="center" v-if="availableVariants.length" dense>
+          <v-col cols="3">Variants</v-col>
           <v-col>
-            <v-text-field
-              label="Thumbnail URL"
-              readonly
-              :value="thumbnail_src"
-            />
+            <v-chip-group
+              active-class="selected"
+              v-model="selectedVariantIndex"
+              mandatory
+            >
+              <v-chip v-for="variant in availableVariants" :key="variant">
+                {{ variant }}
+              </v-chip>
+            </v-chip-group>
           </v-col>
         </v-row>
-        <v-row align="center">
+
+        <v-row align="center" dense>
           <v-col>
             <v-textarea
               label="Description"
@@ -80,23 +94,12 @@
             />
           </v-col>
         </v-row>
-        <v-row align="center">
+        <v-row align="center" dense>
           <v-col>
             <v-checkbox label="Restricted" v-model="image.restricted" />
           </v-col>
         </v-row>
 
-        <v-row align="center">
-          <v-col cols="3">Views</v-col>
-          <v-col>{{ image.views }}</v-col>
-        </v-row>
-        <v-row align="center">
-          <v-col cols="3">Last viewed</v-col>
-          <v-col>{{ image.last_viewed || "Unavailable" }}</v-col>
-        </v-row>
-      </v-card-text>
-
-      <v-card-text>
         <v-card-subtitle>Referers</v-card-subtitle>
         <v-data-table :headers="referers_headers" :items="image.referers" />
       </v-card-text>
@@ -118,6 +121,8 @@ export default {
       loading: false,
       deleting: false,
       image: null,
+      availableVariants: [],
+      selectedVariantIndex: 0,
       referers_headers: [
         { text: "URL", value: "url" },
         { text: "Last request", value: "last_request" },
@@ -127,6 +132,7 @@ export default {
   },
   mounted() {
     this.get_image_details()
+    this.getImageVariants()
   },
   watch: {
     image_id() {
@@ -148,6 +154,18 @@ export default {
         .finally(() => {
           this.loading = false
         })
+    },
+    async getImageVariants() {
+      try {
+        const { data } = await this.axios.get("/variants")
+        this.availableVariants = ["original", ...data.available]
+        const variantIndex = this.availableVariants.findIndex(
+          (v) => v === data.default
+        )
+        if (variantIndex >= 0) this.selectedVariantIndex = variantIndex
+      } catch (error) {
+        console.error(error)
+      }
     },
     delete_image() {
       if (!confirm(`Delete image?`)) return
@@ -188,11 +206,13 @@ export default {
     image_id() {
       return this.$route.params._id
     },
-    image_src() {
-      return `${VUE_APP_IMAGE_MANAGER_API_URL}/images/${this.image_id}`
+    selectedVariant() {
+      return this.availableVariants[this.selectedVariantIndex]
     },
-    thumbnail_src() {
-      return `${this.image_src}/thumbnail`
+    image_src() {
+      const base = `${VUE_APP_IMAGE_MANAGER_API_URL}/images/${this.image_id}`
+      if (this.selectedVariant) return `${base}?variant=${this.selectedVariant}`
+      else return base
     },
     current_user_id() {
       const { current_user } = this.$store.state
@@ -211,3 +231,16 @@ export default {
   },
 }
 </script>
+
+<style scoped>
+.image_wrapper {
+  display: flex;
+  justify-content: center;
+}
+.image_preview {
+  max-width: 100%;
+}
+.selected {
+  background-color: #c00000;
+}
+</style>
