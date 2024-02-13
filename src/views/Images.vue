@@ -76,7 +76,7 @@ export default {
       thumbnail_size: "10em",
       footerProps: { "items-per-page-options": [10, 50, 100, -1] },
       headers: [
-        { value: "thumbnail", text: "Thumbnail" },
+        { value: "thumbnail", text: "" },
         { value: "upload_date", text: "Upload date" },
         { value: "uploader_id", text: "Uploader" },
         { value: "size", text: "Size" },

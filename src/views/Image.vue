@@ -64,23 +64,23 @@
           >
         </v-row>
 
-        <v-row align="center">
-          <v-col>
-            <v-text-field label="URL" readonly :value="image_src" />
-          </v-col>
-        </v-row>
         <v-row align="center" v-if="availableVariants.length" dense>
           <v-col cols="3">Variants</v-col>
           <v-col>
             <v-chip-group
-              active-class="selected"
               v-model="selectedVariantIndex"
               mandatory
+              active-class="primary"
             >
               <v-chip v-for="variant in availableVariants" :key="variant">
                 {{ variant }}
               </v-chip>
             </v-chip-group>
+          </v-col>
+        </v-row>
+        <v-row align="center">
+          <v-col>
+            <v-text-field label="URL" readonly :value="image_src" />
           </v-col>
         </v-row>
 
@@ -239,8 +239,5 @@ export default {
 }
 .image_preview {
   max-width: 100%;
-}
-.selected {
-  background-color: #c00000;
 }
 </style>
