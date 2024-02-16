@@ -72,7 +72,7 @@ export default {
       search: "",
       loading: false,
       total: 0,
-      options: {},
+      // options: {},
       thumbnail_size: "10em",
       footerProps: { "items-per-page-options": [10, 50, 100, -1] },
       headers: [
@@ -87,11 +87,8 @@ export default {
     }
   },
   watch: {
-    options: {
-      handler() {
-        this.get_images()
-      },
-      deep: true,
+    query() {
+      this.get_images()
     },
   },
   mounted() {
@@ -101,15 +98,9 @@ export default {
   methods: {
     get_images() {
       this.loading = true
-      const { itemsPerPage, page, sortBy, sortDesc } = this.options
 
-      const params = {
-        limit: itemsPerPage,
-        skip: (page - 1) * itemsPerPage,
-        sort: sortBy[0],
-        order: sortDesc[0] ? 1 : -1,
-        search: this.search,
-      }
+      const params = { ...this.query }
+
       this.axios
         .get(`/images`, { params })
         .then(({ data }) => {
@@ -123,8 +114,58 @@ export default {
           this.loading = false
         })
     },
+
     get_image_thumbnail_src({ _id }) {
-      return `${VUE_APP_IMAGE_MANAGER_API_URL}/images/${_id}/thumbnail`
+      return `${VUE_APP_IMAGE_MANAGER_API_URL}/images/${_id}?variant=thumbnail`
+    },
+    setQueryParam(key, value) {
+      if (this.query[key] === value) return
+      const query = { ...this.query }
+      if (value) query[key] = value
+      else delete query[key]
+      /* router.replace acts like router.push, the only difference is that it navigates without pushing a new history entry, as its name suggests - it replaces the current entry. */
+      this.$router.replace({ query })
+    },
+  },
+
+  computed: {
+    query() {
+      return this.$route.query
+    },
+    options: {
+      get() {
+        // Those are not defaults, those are values which are set if the table does not set them
+        const {
+          sort = "upload_date",
+          order = "-1", // Does not become default for some reason
+          limit = 10,
+          skip = 0,
+        } = this.$route.query
+
+        return {
+          itemsPerPage: Number(limit),
+          sortBy: [sort],
+          sortDesc: [order === "-1"],
+          page: skip / limit + 1,
+        }
+      },
+      set(newVal) {
+        // When the table sets some options
+
+        const { itemsPerPage, page, sortBy, sortDesc } = newVal
+
+        const params = {
+          limit: String(itemsPerPage),
+          skip: String((page - 1) * itemsPerPage),
+          order: String(sortDesc[0] ? -1 : 1),
+          sort: sortBy[0],
+        }
+
+        // Not ideal but better than before
+        Object.keys(params).forEach((key) => {
+          this.setQueryParam(key, params[key])
+        })
+      },
     },
   },
 }
