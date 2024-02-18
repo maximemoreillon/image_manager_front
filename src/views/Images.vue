@@ -7,8 +7,8 @@
         </v-col>
         <v-col cols="auto">
           <v-btn exact :to="{ name: 'Upload' }" color="primary">
-            <v-icon>mdi-upload</v-icon>
-            <span class="ml-2">Upload new</span>
+            <v-icon left>mdi-upload</v-icon>
+            <span>Upload new</span>
           </v-btn>
         </v-col>
       </v-row>
@@ -72,7 +72,6 @@ export default {
       search: "",
       loading: false,
       total: 0,
-      // options: {},
       thumbnail_size: "10em",
       footerProps: { "items-per-page-options": [10, 50, 100, -1] },
       headers: [
