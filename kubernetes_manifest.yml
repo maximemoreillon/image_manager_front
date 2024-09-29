@@ -20,8 +20,8 @@ spec:
           envFrom:
             - secretRef:
                 name: environment-variables
-            # - secretRef:
-            #     name: auth0-env
+            - secretRef:
+                name: auth0-env
           env:
             - name: VUE_APP_IMAGE_MANAGER_API_URL
               value: https://img.maximemoreillon.com
