@@ -66,10 +66,6 @@ export default {
   methods: {
     get_user(user) {
       this.$store.commit("set_current_user", user)
-      if (user?.access_token)
-        this.axios.defaults.headers.common[
-          "Authorization"
-        ] = `Bearer ${user.access_token}`
     },
   },
 }
